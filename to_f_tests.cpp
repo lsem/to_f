@@ -58,12 +58,12 @@ void tests() {
   }
   // non-copyable lambda
   {
-    assert(to_f([x = std::make_unique<int>(10)](int y) { return *x + y; })(
+    assert(to_f([x = std::unique_ptr<int>(new int(10))](int y) { return *x + y; })(
                100) == 110);
   }
   // mutable lambda
   {
-    assert(to_f([x = std::make_unique<int>(10)](int y) mutable {
+    assert(to_f([x = std::unique_ptr<int>(new int(10))](int y) mutable {
              auto z = *x;
              x.reset();
              return z + y;
