@@ -4,6 +4,27 @@
 #include <memory>
 
 
+void test_two_functions()
+{
+  auto function_factory = [](int value){return [value](){return value;};};
+
+  auto return_1 = function_factory(1);
+  auto return_2 = function_factory(2);
+
+  assert(return_1() != return_2());
+
+  typedef int(*)() func_ptr;
+  func_ptr f1 = to_f(return_1);
+
+  assert(return_1() == f1());
+
+  func_ptr f2 = to_f(return_2);
+
+  assert(return_2() == f2());
+
+  assert(f1() != f2());
+}
+
 void tests() {
 #undef NDEBUG
   // basic test
