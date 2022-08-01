@@ -63,11 +63,12 @@ void tests() {
   }
   // mutable lambda
   {
-    assert(to_f([x = std::make_unique<int>(10)](int y) mutable {
+    int(*f)(int) = to_f([x = std::make_unique<int>(10)](int y) mutable {
              auto z = *x;
              x.reset();
              return z + y;
-           })(100) == 110);
+           });
+    assert(f(100) == 110);
   }
 
   std::cout << "all passed\n";
